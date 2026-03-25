@@ -1,0 +1,37 @@
+[project]
+name = "inventory-agent"
+version = "0.1.0"
+description = "Production-grade Agentic Inventory Management System"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.29.0",
+    "chromadb>=0.5.0",
+    "sentence-transformers>=3.0.0",
+    "openai>=1.30.0",
+    "sqlalchemy>=2.0.0",
+    "rich>=13.7.0",
+    "typer>=0.12.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.2.0",
+    "faker>=25.0.0",
+    "pytest>=8.2.0",
+    "httpx>=0.27.0",
+    "llamafactory>=0.9.3",
+    "peft>=0.15.2",
+    "transformers>=4.51.3",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["agent", "tools", "vector_db", "db", "data", "finetune"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
