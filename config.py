@@ -31,6 +31,8 @@ class Settings(BaseSettings):
     # ChromaDB
     chroma_path: str = str(BASE_DIR / "data" / "chroma_db")
     chroma_collection: str = "products"
+    chroma_host: str | None = None   # Set to "chromadb" in Docker
+    chroma_port: int = 8001   
 
     # Agent
     memory_window: int = 10       # number of turns to keep in context
