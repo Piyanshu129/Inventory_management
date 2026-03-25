@@ -1,0 +1,36 @@
+Fine-Tuning Artifacts Explanation
+=================================
+
+Model Fine-Tuned: Qwen/Qwen2.5-7B-Instruct
+Framework used: LLaMA-Factory
+
+1. Dataset Preparation
+----------------------
+We used two main JSONL datasets containing instructions and responses for training the agent:
+- `text_to_sql_alpaca.jsonl` formatted in the 'alpaca' style.
+- `tool_calling_chatml.jsonl` formatted in the 'sharegpt' style (used for function/tool calling).
+
+These datasets were mapped into LLaMA-Factory's `dataset_info.json` so the framework could properly structure the prompts.
+
+2. Training Hyper-parameters
+----------------------------
+The model was fine-tuned using 4-bit QLoRA to efficiently train on limited VRAM (Google Colab T4 GPU).
+
+- Method: LoRA (Low-Rank Adaptation)
+- LoRA Rank (r): 8
+- LoRA Target Modules: all linear layers
+- Quantization: 4-bit (with fp16 enabled)
+- Epochs: 3.0
+- Per-device Train Batch Size: 2
+- Gradient Accumulation Steps: 8
+- Learning Rate: 2.0e-5
+- LR Scheduler: Cosine Annealing
+- Warmup Ratio: 0.1
+- Cutoff Length: 2048
+
+3. Training Infrastructure
+--------------------------
+Environment: Google Colab
+Dependencies: bitsandbytes, torch, metrics, and LLaMA-Factory
+Duration: Approximately 15-30 minutes for the text-to-sql task.
+Output: LoRA adapter weights saved directly to Google Drive.
