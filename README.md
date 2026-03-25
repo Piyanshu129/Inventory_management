@@ -53,7 +53,7 @@ inventory/
 │   └── generate_semantic_dataset.py     # 150 semantic search pairs
 │
 ├── finetune/
-│   ├── hf_finetune.py              # QLoRA fine-tuning script (TRL + PEFT)
+│   ├── collab_finetune.ipynb              # QLoRA fine-tuning script (TRL + PEFT)
 │   ├── export_text_to_sql.py       # Export NL→SQL in Alpaca / ChatML format
 │   ├── export_tool_calling.py      # Export tool-calling dataset (ChatML)
 │   └── export_domain_adaptation.py # Contrastive pairs for domain adaptation
