@@ -7,10 +7,11 @@ FROM ghcr.io/astral-sh/uv:python3.11-bookworm-slim AS builder
 WORKDIR /app
 
 # Copy dependency manifests first (layer-cache friendly)
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml uv.lock README.md ./
 
 # Install all runtime deps into /app/.venv (no torch / cuda in base image)
-RUN uv sync --frozen --no-dev
+ENV UV_CONCURRENT_DOWNLOADS=2 UV_CONCURRENT_INSTALLS=2
+RUN uv sync --frozen --no-dev --no-cache
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 2 – Runtime image
