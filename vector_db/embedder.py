@@ -27,12 +27,26 @@ _model: SentenceTransformer | None = None
 def _get_client() -> chromadb.ClientAPI:
     global _client
     if _client is None:
-        chroma_path = Path(settings.chroma_path)
-        chroma_path.mkdir(parents=True, exist_ok=True)
-        _client = chromadb.PersistentClient(
-            path=str(chroma_path),
-            settings=ChromaSettings(anonymized_telemetry=False),
-        )
+      if settings.chroma_host:
+            # Running inside Docker — connect to the standalone ChromaDB service
+            logger.info(
+                "Connecting to ChromaDB HTTP server at %s:%s",
+                settings.chroma_host,
+                settings.chroma_port,
+            )
+            _client = chromadb.HttpClient(
+                host=settings.chroma_host,
+                port=settings.chroma_port,
+                settings=ChromaSettings(anonymized_telemetry=False),
+            )
+        else:
+            # Local development — persist to disk
+            chroma_path = Path(settings.chroma_path)
+            chroma_path.mkdir(parents=True, exist_ok=True)
+            _client = chromadb.PersistentClient(
+                path=str(chroma_path),
+                settings=ChromaSettings(anonymized_telemetry=False),
+            )
     return _client
 
 
